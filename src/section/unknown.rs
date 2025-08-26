@@ -1,4 +1,4 @@
-use crate::{ Section, Gallery, Group, Image, Date };
+use crate::{ Section, Gallery, Group, Media, Date };
 
 
 pub const UNKNOWN : Section = Section {
@@ -6,13 +6,13 @@ pub const UNKNOWN : Section = Section {
     galleries : &[
 
         Gallery::Wide(Group(&[
-            Image::new("Flippy chicken", Date::Unknown, "gallery/unknown/flippy_chicken.jpg")
+            Media::new("Flippy chicken", Date::Unknown, "gallery/unknown/flippy_chicken.jpg")
         ])),
 
         Gallery::Tiled(&[
             Group(&[
-                Image::new("Bird concern", Date::Unknown, "gallery/unknown/birdconcern.png"),
-                Image::new("WHERE IS MY FOOD!?", Date::Unknown, "gallery/unknown/cirdboncern.png").edited()
+                Media::new("Bird concern", Date::Unknown, "gallery/unknown/birdconcern.png"),
+                Media::new("WHERE IS MY FOOD!?", Date::Unknown, "gallery/unknown/cirdboncern.png").edited()
             ])
         ])
 

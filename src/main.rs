@@ -1,5 +1,5 @@
 use std::{
-    fs::File,
+    fs::{ self, File },
     io::Write
 };
 use maud::{ DOCTYPE, html };
@@ -12,7 +12,14 @@ mod gallery;
 use gallery::*;
 
 
+const EXT_IMAGE : &[&str] = &[ ".png", ".jpg", ".jpeg" ];
+const EXT_VIDEO : &[&str] = &[ ".mp4", ".webm" ];
+
+
 fn main() {
+    _ = fs::remove_dir_all("site/generated");
+    fs::create_dir("site/generated").unwrap();
+
     let main = html!{ (DOCTYPE) html {
         head {
             link rel="stylesheet" type="text/css" href="style.css";
@@ -35,10 +42,11 @@ fn main() {
             div #sections_wrapper {
                 div #sections {
                     @for section in SECTIONS {
-                        (section)
+                        (section.clone().render())
                     }
             } }
             div #footer { }
+            script src="script.js" { }
         }
     } };
 

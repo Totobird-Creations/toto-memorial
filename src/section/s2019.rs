@@ -1,4 +1,4 @@
-use crate::{ Section, Gallery, Group, Image, Date };
+use crate::{ Section, Gallery, Group, Media, Date };
 
 
 pub const S2019 : Section = Section {

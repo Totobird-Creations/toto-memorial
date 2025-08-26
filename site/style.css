@@ -25,8 +25,11 @@ body {
     scroll-behavior     : smooth;
 }
 
-img {
+img, video {
     user-select : none;
+}
+video {
+    cursor : pointer;
 }
 
 h1 {
@@ -147,15 +150,22 @@ input:focus {
     margin-top     : 12px;
     margin-bottom  : 12px;
 }
+.galleries > * {
+    justify-content : center;
+}
+
+.gallery_wide {
+    display         : flex;
+    flex-direction  : row;
+    justify-content : center;
+}
 
 .gallery_tiled {
     display        : flex;
     flex-direction : row;
     gap            : 18px;
 }
-
 .gallery_tiled > * {
-    width           : 50%;
     display         : flex;
     flex-direction  : column;
     justify-content : space-evenly;
@@ -216,53 +226,66 @@ input:focus {
 }
 
 .img_wrapper > img {
-    transition     : all 0.25s ease-in-out;
+    transition     : filter 0.25s ease-in-out, transform 0.25s ease-in-out, z-index 0s 0.25s;
     filter         : drop-shadow(0 0 2px #0000007f) drop-shadow(3px 3px 0 #ffffff) drop-shadow(-3px 3px 0 #ffffff) drop-shadow(3px -3px 0 #ffffff) drop-shadow(-3px -3px 0 #ffffff);
     position       : relative;
     width          : 100%;
-    height         : auto;
+    height         : min-content;
+    max-width      : 60vw;
+    max-height     : 62.5vh;
     pointer-events : none;
     object-fit     : contain;
-}
-.gallery_wide .img_wrapper {}
-.gallery_wide .img_wrapper > img {
-    max-height : 375px;
-    height     : max-content;
-    width      : auto;
+    z-index        : 0;
 }
 .img_wrapper > input:not(:checked):hover ~ img {
-    transition : all 0.25s ease-in-out;
+    transition : filter 0.25s ease-in-out, transform 0.25s ease-in-out, z-index 0s;
     filter     : drop-shadow(0 0 2px #0000007f) drop-shadow(3px 3px 0 #ffffff) drop-shadow(-3px 3px 0 #ffffff) drop-shadow(3px -3px 0 #ffffff) drop-shadow(-3px -3px 0 #ffffff) drop-shadow(0 0 16px #ffffff);
     transform  : scale(1.07);
     z-index    : 3000;
 }
 
-.img_wrapper > h1 {
+.img_wrapper > div.watermark_video {
+    transition     : transform 0.25s ease-in-out;
+    border         : 6px solid #ffffff;
+    border-radius  : 100%;
+    filter         : drop-shadow(0 0 4px #000000);
+    pointer-events : none;
+    position       : absolute;
+    top            : 50%;
+    left           : 50%;
+    width          : 48px;
+    height         : 48px;
+    transform      : translate(-50%, -50%);
+    z-index        : 3000;
+}
+.img_wrapper > input:not(:checked):hover ~ div.watermark_video {
     transition : transform 0.25s ease-in-out;
+    transform  : translate(-50%, -50%) scale(1.375);
+}
+.img_wrapper > div.watermark_video > span {
+    font-size      : 25pt;
+    color          : #ffffff;
+    filter         : drop-shadow(0 0 4px #000000);
+    pointer-events : none;
+    position       : absolute;
+    top            : 50%;
+    left           : 50%;
+    transform      : translate(calc(-50% + 2px), -50%);
+}
+
+.img_wrapper > h1.img_wrapper_group_count {
+    transition : bottom 0.25s ease-in-out, left 0.25s ease-in-out, z-index 0s 0.25s;
     font-size  : 15pt;
     filter     : drop-shadow(0 0 2px #000000);
     position   : absolute;
-    left       : 50%;
+    bottom     : 0;
+    left       : 8px;
     z-index    : 2000;
 }
-.img_wrapper > h1.img_wrapper_above {
-    transition : transform 0.25s ease-in-out;
-    bottom     : 0;
-    transform  : translate(-50%, 50%);
-}
-.img_wrapper > input:not(:checked):hover ~ h1.img_wrapper_above {
-    transition : transform 0.25s ease-in-out;
-    transform  : translate(-50%, 12.5%);
-    z-index    : 4000;
-}
-.img_wrapper > h1.img_wrapper_below {
-    transition : transform 0.25s ease-in-out;
-    top        : 0;
-    transform  : translate(-50%, -50%);
-}
-.img_wrapper > input:not(:checked):hover ~ h1.img_wrapper_below {
-    transition : transform 0.25s ease-in-out;
-    transform  : translate(-50%, -12.5%);
+.img_wrapper > input:not(:checked):hover ~ h1.img_wrapper_group_count {
+    transition : bottom 0.25s ease-in-out, left 0.25s ease-in-out, z-index 0s 0s;
+    bottom     : 4px;
+    left       : 12px;
     z-index    : 4000;
 }
 
@@ -387,23 +410,58 @@ input:focus {
     z-index    : 4000;
 }
 
-.img_group_select_option > .img_single {
-    transition       : all 0.25s ease-in-out;
-    opacity          : 0;
-    position         : fixed;
-    top              : 15%;
-    left             : 10%;
-    right            : 10%;
-    bottom           : calc(5% + 66px);
+.img_group_select_option > div.watermark_video {
+    transition     : transform 0.25s ease-in-out;
+    border         : 3px solid #ffffff;
+    border-radius  : 100%;
+    filter         : drop-shadow(0 0 4px #000000);
+    pointer-events : none;
+    position       : absolute;
+    top            : 50%;
+    left           : 50%;
+    width          : 24px;
+    height         : 24px;
+    transform      : translate(-50%, -50%);
+    z-index        : 4000;
 }
-.img_group_select_option > input:checked ~ .img_single {
-    transition : all 0.25s ease-in-out;
-    opacity    : 100%;
-    top        : 10%;
-    bottom     : calc(10% + 66px);
+.img_group_select_option > input:not(:checked):hover ~ div.watermark_video {
+    transition : transform 0.25s ease-in-out;
+    transform  : translate(-50%, -50%) scale(1.375);
+}
+.img_group_select_option > input:checked ~ div.watermark_video {
+    transition : transform 0.25s ease-in-out;
+    transform  : translate(-50%, calc(-50% - 8px)) scale(1.375);
+}
+.img_group_select_option > div.watermark_video > span {
+    font-size      : 12.5pt;
+    color          : #ffffff;
+    filter         : drop-shadow(0 0 4px #000000);
+    pointer-events : none;
+    position       : absolute;
+    top            : 50%;
+    left           : 50%;
+    transform      : translate(calc(-50% + 1px), -50%);
 }
 
-.img_single > img {
+.img_group_select_option > .img_single {
+    transition     : all 0.25s ease-in-out;
+    opacity        : 0;
+    pointer-events : none;
+    position       : fixed;
+    top            : 15%;
+    left           : 10%;
+    right          : 10%;
+    bottom         : calc(5% + 66px);
+}
+.img_group_select_option > input:checked ~ .img_single {
+    transition     : all 0.25s ease-in-out;
+    opacity        : 100%;
+    pointer-events : inherit;
+    top            : 10%;
+    bottom         : calc(10% + 66px);
+}
+
+.img_single > .media {
     background-color : #3f3f3f;
     filter           : drop-shadow(0 0 16px #000000) drop-shadow(0 0 4px #000000);
     object-fit       : contain;
@@ -412,14 +470,15 @@ input:focus {
 }
 
 .img_single > h1 {
-    color         : #ffffff;
-    position      : absolute;
-    margin-left   : 24px;
-    margin-right  : 24px;
-    margin-top    : 0px;
-    margin-bottom : 0px;
-    padding       : 0;
-    z-index       : 6000;
+    color          : #ffffff;
+    pointer-events : none;
+    position       : absolute;
+    margin-left    : 24px;
+    margin-right   : 24px;
+    margin-top     : 0px;
+    margin-bottom  : 0px;
+    padding        : 0;
+    z-index        : 6000;
 }
 
 .img_single > h1.img_single_label {
@@ -446,4 +505,94 @@ input:focus {
 
 #footer {
     min-height : 64px;
+}
+
+
+.video_control ~ video {
+    position : relative;
+}
+
+.video_control {
+    background-color : #0000007f;
+    border-radius    : 4px;
+    position         : absolute;
+    left             : 20%;
+    bottom           : 64px;
+    width            : 60%;
+    height           : min-content;
+    margin           : 0;
+    padding          : 4px;
+    padding-left     : 6px;
+    padding-right    : 10px;
+    z-index          : 5000;
+    display          : flex;
+    flex-direction   : row;
+    gap              : 4px;
+}
+
+.video_control_play {
+    cursor        : pointer;
+    position      : relative;
+    width         : 24px;
+    height        : 24px;
+    margin-top    : auto;
+    margin-bottom : auto;
+    margin-left   : 0;
+    margin-right  : 0;
+}
+.video_control_play:after {
+    content   : "▶";
+    font-size : 14pt;
+    color     : #ffffff;
+    position  : absolute;
+    top       : 50%;
+    left      : 50%;
+    transform : translate(-50%, -50%);
+}
+.video_control_play.video_control_play_restart:after {
+    content : "⏮";
+}
+.video_control_play:checked:after {
+    content   : "⏸";
+}
+
+.video_control_seek {
+    cursor          : ew-resize;
+    flex            : 1;
+    position        : relative;
+    margin-top      : 4px;
+    margin-bottom   : 4px;
+    display         : flex;
+    flex-direction  : column;
+    justify-content : center;
+}
+.video_control_seek_bars {
+    background-color : #7f7f7f;
+    pointer-events   : none;
+    position         : relative;
+    width            : 100%;
+    height           : 4px;
+}
+.video_control_seek_progress {
+    background-color : #ff6f4f;
+    pointer-events   : none;
+    position         : absolute;
+    top              : 0;
+    left             : 0;
+    height           : 100%;
+}
+.video_control_seek .video_control_seek_hover {
+    transition       : opacity 0.25s ease-in-out;
+    background-color : #ffffff5f;
+    pointer-events   : none;
+    opacity          : 0;
+    position         : absolute;
+    top              : 0;
+    left             : 0;
+    width            : 25%;
+    height           : 100%;
+}
+.video_control_seek:hover .video_control_seek_hover {
+    transition : opacity 0.25s ease-in-out;
+    opacity    : 100%;
 }

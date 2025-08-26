@@ -1,4 +1,4 @@
-use crate::{ Section, Gallery, Group, Image, Date };
+use crate::{ Section, Gallery, Group, Media, Date };
 
 
 pub const S2024 : Section = Section {
@@ -7,16 +7,16 @@ pub const S2024 : Section = Section {
 
         Gallery::Tiled(&[
             Group(&[
-                Image::new("Peekaboo!", Date::YMD(2024, 12, 14), "gallery/2024/toto_in_a_calendar.jpg")
+                Media::new("Peekaboo!", Date::YMD(2024, 12, 14), "gallery/2024/toto_in_a_calendar.jpg")
             ]),
             Group(&[
-                Image::new("He's everywhere!", Date::YMD(2024, 12, 14), "gallery/2024/toto_everywhere.jpg").edited()
+                Media::new("He's everywhere!", Date::YMD(2024, 12, 14), "gallery/2024/toto_everywhere.jpg").edited()
             ]),
             Group(&[
-                Image::new("Rawr", Date::YMD(2024, 12, 15), "gallery/2024/totodino.jpg").edited()
+                Media::new("Rawr", Date::YMD(2024, 12, 15), "gallery/2024/totodino.jpg").edited()
             ]),
             Group(&[
-                Image::new("Molotov 'Cockatiel'", Date::YMD(2024, 03, 26), "gallery/2024/firetoto.png").edited()
+                Media::new("Molotov 'Cockatiel'", Date::YMD(2024, 03, 26), "gallery/2024/firetoto.png").edited()
             ])
         ])
 
