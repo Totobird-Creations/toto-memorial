@@ -13,6 +13,7 @@ use nom_exif::{
     TrackInfoTag as TrackMetaTag,
     EntryValue as MediaMetaValue
 };
+use ffmpeg_next::format::input as load_media;
 use chrono::Datelike;
 
 
@@ -43,6 +44,14 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
     let     ext = path.extension().unwrap().to_str().unwrap();
     let mut f   = File::open(&path).unwrap();
 
+    let mut ictx    = load_media(&path).unwrap();
+    let     tagdict = ictx.metadata();
+    let     title   = tagdict
+        .get("title")
+        .or_else(|| tagdict.get("TITLE"))
+        .map(|s| s.to_string())
+        .unwrap_or_default();
+
     let mut date = None;
 
     let     source = MediaMetaSource::seekable(&f).unwrap();
@@ -51,8 +60,8 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
         let meta = parser.parse::<_, _, ExifMetadata>(source).unwrap();
         for (mut entry) in meta { if let Some(tag) = entry.tag() {
             match (tag) {
-                ExifMetaTag::CreateDate       => { date = Some(entry.take_value().unwrap()); },
-                ExifMetaTag::DateTimeOriginal => { date = Some(entry.take_value().unwrap()); },
+                ExifMetaTag::CreateDate       => { date  = Some(entry.take_value().unwrap()); },
+                ExifMetaTag::DateTimeOriginal => { date  = Some(entry.take_value().unwrap()); },
                 _ => { }
             }
         } }
@@ -87,7 +96,7 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
             kind       = MediaKind::Image;
         },
         "webm" | "mp4" => {
-            let generated = video::generate_thumbnail(&path);
+            let generated = video::generate_thumbnail(&mut ictx, &path);
             thumbnail  = generated.path;
             resolution = (generated.image.width(), generated.image.height(),);
             kind       = MediaKind::Video;
@@ -101,7 +110,7 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
         date,
         thumbnail   : thumbnail.strip_prefix("site").unwrap().to_str().unwrap().to_string(),
         resolution,
-        label       : String::new(), // TODO
+        label       : title,
         edited      : source_path.contains(".edited"),
         kind,
         is_cover    : source_path.contains(".cover"),

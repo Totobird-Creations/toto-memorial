@@ -11,8 +11,8 @@ use image::{
 use ffmpeg_next::{
     codec::context::Context as ContextDecoder,
     format::{
-        input as load_video,
-        Pixel as VideoPixel
+        Pixel as VideoPixel,
+        context::Input as MediaInput
     },
     media::Type as MediaType,
     software::scaling::{
@@ -28,13 +28,12 @@ pub struct Thumbnail {
     pub path  : PathBuf
 }
 
-pub fn generate_thumbnail(video_path : &Path) -> Thumbnail {
+pub fn generate_thumbnail(ictx : &mut MediaInput, video_path : &Path) -> Thumbnail {
     let thumbnail_path = format!("site/generated/{}-{}.jpg",
         video_path.file_name().unwrap().to_str().unwrap(),
         rand_string::<16>()
     ).into();
 
-    let mut ictx    = load_video(video_path).unwrap();
     let     input   = ictx.streams().best(MediaType::Video).unwrap();
     let     index   = input.index();
     let     ctxdec  = ContextDecoder::from_parameters(input.parameters()).unwrap();

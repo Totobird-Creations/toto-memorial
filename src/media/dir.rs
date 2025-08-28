@@ -22,7 +22,7 @@ impl From<MediaInfo> for MediaGroup {
 
 #[derive(Debug, Default)]
 pub enum MediaDisplayKind {
-    Wide, // TODO
+    Wide,
     #[default]
     Tiled
 }
