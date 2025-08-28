@@ -15,6 +15,7 @@ use nom_exif::{
 };
 use ffmpeg_next::format::input as load_media;
 use chrono::Datelike;
+use serde_json::{ Value as JsonValue, from_str as json_from_str };
 
 
 mod video;
@@ -92,7 +93,9 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
             _ => None
         }
     });
-    let title = title.or(comment).unwrap_or_default();
+    let title = title.or_else(|| {
+        comment.and_then(|c| ((! c.starts_with("ASCII@")) && json_from_str::<JsonValue>(&c).is_err()).then(|| c))
+    }).unwrap_or_default();
 
     let thumbnail;
     let resolution;
