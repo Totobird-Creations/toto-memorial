@@ -49,10 +49,10 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
     let     title   = tagdict
         .get("title")
         .or_else(|| tagdict.get("TITLE"))
-        .map(|s| s.to_string())
-        .unwrap_or_default();
+        .map(|s| s.to_string());
 
-    let mut date = None;
+    let mut date    = None;
+    let mut comment = None;
 
     let     source = MediaMetaSource::seekable(&f).unwrap();
     let mut parser = MediaMetaParser::new();
@@ -60,8 +60,9 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
         let meta = parser.parse::<_, _, ExifMetadata>(source).unwrap();
         for (mut entry) in meta { if let Some(tag) = entry.tag() {
             match (tag) {
-                ExifMetaTag::CreateDate       => { date  = Some(entry.take_value().unwrap()); },
-                ExifMetaTag::DateTimeOriginal => { date  = Some(entry.take_value().unwrap()); },
+                ExifMetaTag::CreateDate       => { date    = Some(entry.take_value().unwrap()); },
+                ExifMetaTag::DateTimeOriginal => { date    = Some(entry.take_value().unwrap()); },
+                ExifMetaTag::UserComment      => { comment = Some(entry.take_value().unwrap()); },
                 _ => { }
             }
         } }
@@ -83,6 +84,15 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
         };
         (nd.year().try_into().unwrap(), nd.month().try_into().unwrap(), nd.day().try_into().unwrap(),)
     });
+    let comment = comment.and_then(|v| {
+        match (v) {
+            MediaMetaValue::Text(t)      => Some(t),
+            MediaMetaValue::U8Array(v)   => String::from_utf8(v).ok(),
+            MediaMetaValue::Undefined(v) => String::from_utf8(v).ok(),
+            _ => None
+        }
+    });
+    let title = title.or(comment).unwrap_or_default();
 
     let thumbnail;
     let resolution;
