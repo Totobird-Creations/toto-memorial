@@ -91,7 +91,7 @@ input:focus {
     padding-right   : 96px;
     width           : 60%;
     max-width       : 60%;
-    z-index         : 10000;
+    z-index         : 4000;
     transform       : translateX(-50%);
     display         : flex;
     flex-direction  : row;
