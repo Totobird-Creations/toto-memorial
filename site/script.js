@@ -1,3 +1,4 @@
+// Video controls.
 const video_controls = document.getElementsByClassName("video_control");
 for (let i = 0; i < video_controls.length; i++) {
     const video_control = video_controls[i];
@@ -8,20 +9,23 @@ for (let i = 0; i < video_controls.length; i++) {
 
     const control_play = video_control.getElementsByClassName("video_control_play")[0];
     control_play.addEventListener("click", () => {
-        control_play.classList.remove("video_control_play_restart");
-        if (control_play.checked) {
+        if (video.paused) {
             video.play();
         } else {
             video.pause();
         }
     });
+    video.addEventListener("pause", () => {
+        control_play.checked = false;
+    });
+    video.addEventListener("play", () => {
+        control_play.checked = true;
+    });
     video.addEventListener("click", () => {
-        if (control_play.checked) {
-            control_play.checked = false;
-            video.pause();
-        } else {
-            control_play.checked = true;
+        if (video.paused) {
             video.play();
+        } else {
+            video.pause();
         }
     });
 
@@ -42,7 +46,6 @@ for (let i = 0; i < video_controls.length; i++) {
 
     video.addEventListener("ended", () => {
         if (! currently_seeking) {
-            control_play.checked = false;
             control_play.classList.add("video_control_play_restart");
         }
     });
@@ -52,7 +55,6 @@ for (let i = 0; i < video_controls.length; i++) {
             currently_seeking   = true;
             playing_before_seek = control_play.checked;
             control_play.classList.remove("video_control_play_restart");
-            control_play.checked = false;
             video.pause();
             update_seek_frac(e);
         }
@@ -62,7 +64,6 @@ for (let i = 0; i < video_controls.length; i++) {
             update_seek_frac(e);
             currently_seeking = false;
             if (playing_before_seek && video.currentTime < video.duration) {
-                control_play.checked = true;
                 video.play();
             }
         }
@@ -76,4 +77,47 @@ for (let i = 0; i < video_controls.length; i++) {
         update_seek_frac(e);
     });
 
+}
+
+
+// Pause/restart video when selecting another entry in the group.
+const select_options = document.getElementsByClassName("img_group_select_option");
+for (let i = 0; i < select_options.length; i++) {
+    const select_option = select_options[i];
+    const input         = select_option.getElementsByTagName("input")[0];
+    input.addEventListener("input", () => {
+        const videos = select_option.parent.getElementsByTagName("video");
+        if (input.checked) {
+            for (let j = 0; j < videos.length; j++) {
+                videos[j].currentTime = 0.0;
+            }
+        } else {
+            for (let j = 0; j < videos.length; j++) {
+                videos[j].pause();
+            }
+        }
+    })
+}
+
+// Pause/restart video when opening/closing group.
+const img_wrappers = document.getElementsByClassName("img_wrapper");
+for (let i = 0; i < img_wrappers.length; i++) {
+    const img_wrapper = img_wrappers[i];
+    for (let j = 0; j < img_wrapper.children.length; j++) {
+        const child = img_wrapper.children[j];
+        if (child.tagName == "INPUT") {
+            child.addEventListener("input", () => {
+                const videos = img_wrapper.getElementsByTagName("video");
+                if (child.checked) {
+                    for (let k = 0; k < videos.length; k++) {
+                        videos[k].currentTime = 0.0;
+                    }
+                } else {
+                    for (let k = 0; k < videos.length; k++) {
+                        videos[k].pause();
+                    }
+                }
+            });
+        }
+    }
 }
