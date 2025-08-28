@@ -83,30 +83,35 @@ input:focus {
 
 
 #section_links {
-    width         : 60%;
-    margin-left   : auto;
-    margin-right  : auto;
-    margin-bottom : 48px;
-}
-#section_links h1 {
-    text-align      : center;
-    font-size       : 20pt;
+    background      : linear-gradient(to right, #00000000, #0000007f, #0000007f, #00000000);
+    position        : fixed;
+    bottom          : 0;
+    left            : 50%;
+    padding-left    : 96px;
+    padding-right   : 96px;
+    width           : 60%;
+    max-width       : 60%;
+    z-index         : 10000;
+    transform       : translateX(-50%);
     display         : flex;
     flex-direction  : row;
     flex-wrap       : wrap;
     justify-content : center;
-    gap             : 12px;
+    gap             : 0;
 }
 #section_links * {
-    display : inline-block;
-    margin  : 0;
-    padding : 0;
-}
-#section_links a {
-    text-decoration : none;
-    color           : #ffffff;
-    border-bottom   : 2px solid #ffffff;
-    cursor          : pointer;
+    text-align    : center;
+    font-family   : "Yesteryear", cursive;
+    font-weight   : 400;
+    font-style    : normal;
+    font-size     : 20pt;
+    color         : #ffffff;
+    margin        : 0;
+    padding       : 0;
+    padding-left  : 7px;
+    padding-right : 7px;
+    user-select   : none;
+    filter        : drop-shadow(0 0 2px #0000007f);
 }
 #section_links a p {
     transition     : all 0.25s ease-in-out;
@@ -114,7 +119,7 @@ input:focus {
 }
 #section_links a:hover p {
     transition : all 0.25s ease-in-out;
-    transform  : translateY(-4px);
+    transform  : translateY(-8px);
 }
 
 
@@ -513,7 +518,7 @@ input:focus {
 }
 
 #footer {
-    min-height : 64px;
+    min-height : 128px;
 }
 
 

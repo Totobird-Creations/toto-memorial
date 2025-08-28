@@ -8,14 +8,9 @@ use maud::{ Markup, html };
 
 pub fn render_sections(sections : &[Section]) -> Markup { html!{
     div #section_links {
-        hr;
-        h1 {
-            @for (i, section,) in sections.iter().enumerate() {
-                @if (i > 0) { p { "-" } }
-                a href=(format!("#s{}", section.name)) { p { (section.name) } }
-            }
+        @for section in sections {
+            a href=(format!("#s{}", section.name)) { p { (section.name) } }
         }
-        hr;
     }
     div #sections_wrapper {
         div #sections {
@@ -90,8 +85,10 @@ fn render_group(group : &MediaGroup) -> Markup {
             @if (cover_media.kind == MediaKind::Video ) {
                 div .watermark_video { span { "▶" } }
             }
-            h1 .img_wrapper_group_count {
-                @for _ in 0..group.medias.len() { "◆" }
+            @if (group.medias.len() > 1) {
+                h1 .img_wrapper_group_count {
+                    @for _ in 0..group.medias.len() { "◆" }
+                }
             }
             div .img_group {
                 div .img_group_main { }
