@@ -37,7 +37,13 @@ fn render_galleries(galleries : &[Gallery]) -> Markup { html!{
     div .galleries {
         @for gallery in galleries { @match (gallery) {
             Gallery::Wide(group)   => { (render_gallery_wide(group)) },
-            Gallery::Tiled(groups) => { (render_gallery_tiled(groups)) }
+            Gallery::Tiled(groups) => {
+                @if (groups.len() == 1) {
+                    (render_gallery_wide(&groups[0]))
+                } @else {
+                    (render_gallery_tiled(groups))
+                }
+            }
         } }
     }
 } }

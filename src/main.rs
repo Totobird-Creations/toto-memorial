@@ -40,7 +40,7 @@ fn main() {
         } else {
             panic!("{:?} is not a directory or file", epath);
         };
-        if (group.medias.len() == 1 || epath.file_name().unwrap().to_str().unwrap().contains(".wide")) {
+        if (epath.file_name().unwrap().to_str().unwrap().contains(".wide")) {
             group.kind = MediaDisplayKind::Wide;
         }
         raw_sections.entry(group.medias[group.cover_idx].date.map(|(y, _, _,)| y)).or_default()
