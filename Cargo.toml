@@ -18,3 +18,9 @@ version = "7.1"
 
 [dependencies.rand]
 version = "0.9"
+
+[dependencies.nom-exif]
+version = "2.5"
+
+[dependencies.chrono]
+version = "0.4"

@@ -166,10 +166,18 @@ input:focus {
     gap            : 18px;
 }
 .gallery_tiled > * {
+    flex            : 1;
     display         : flex;
     flex-direction  : column;
     justify-content : space-evenly;
     gap             : 18px;
+    max-width       : 50%;
+}
+.gallery_tiled > :first-child .img_wrapper {
+    margin-left : auto;
+}
+.gallery_tiled > :last-child:has(> *) .img_wrapper {
+    margin-right : auto;
 }
 
 
@@ -274,13 +282,14 @@ input:focus {
 }
 
 .img_wrapper > h1.img_wrapper_group_count {
-    transition : bottom 0.25s ease-in-out, left 0.25s ease-in-out, z-index 0s 0.25s;
-    font-size  : 15pt;
-    filter     : drop-shadow(0 0 2px #000000);
-    position   : absolute;
-    bottom     : 0;
-    left       : 8px;
-    z-index    : 2000;
+    transition     : bottom 0.25s ease-in-out, left 0.25s ease-in-out, z-index 0s 0.25s;
+    font-size      : 15pt;
+    filter         : drop-shadow(0 0 2px #000000);
+    pointer-events : none;
+    position       : absolute;
+    bottom         : 0;
+    left           : 8px;
+    z-index        : 2000;
 }
 .img_wrapper > input:not(:checked):hover ~ h1.img_wrapper_group_count {
     transition : bottom 0.25s ease-in-out, left 0.25s ease-in-out, z-index 0s 0s;
