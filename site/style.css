@@ -41,13 +41,13 @@ h1 {
     margin      : 0;
     padding     : 0;
     user-select : none;
-    filter      : drop-shadow(0 0 2px #0000007f);
+    filter      : drop-shadow(0 0 2px #ffffff) drop-shadow(0 0 16px #ffffff);
 }
 
 hr {
-    background : linear-gradient(to right, #ffffff00, #ffffff7f, #ffffff7f, #ffffff00);
+    background : linear-gradient(to right, #ffffff00, #ffffff, #ffffff, #ffffff00);
     border     : none;
-    filter     : drop-shadow(0 0 2px #ffffffbf);
+    filter     : drop-shadow(0 0 2px #ffffff);
     width      : 100%;
     min-height : 2px;
 }
