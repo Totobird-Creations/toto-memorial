@@ -9,12 +9,10 @@ html, body {
     scroll-behavior : smooth;
     position        : relative;
     width           : 100%;
-    height          : 100%;
     margin          : 0;
     padding         : 0;
     z-index         : -2000;
 }
-
 body {
     background-color    : #000000;
     background-image    : url("background.png");
@@ -22,6 +20,8 @@ body {
     background-repeat   : repeat;
     background-size     : 20%;
     padding-top         : 96px;
+    height              : auto;
+    min-height          : 1vh;
     scroll-behavior     : smooth;
 }
 
@@ -45,9 +45,11 @@ h1 {
 }
 
 hr {
-    width  : 100%;
-    border : 2px solid #ffffff;
-    filter : drop-shadow(0 0 2px #0000007f);
+    background : linear-gradient(to right, #ffffff00, #ffffff7f, #ffffff7f, #ffffff00);
+    border     : none;
+    filter     : drop-shadow(0 0 2px #ffffffbf);
+    width      : 100%;
+    min-height : 2px;
 }
 
 input {
@@ -83,16 +85,16 @@ input:focus {
 
 
 #section_links {
-    background      : linear-gradient(to right, #00000000, #0000007f, #0000007f, #00000000);
-    position        : fixed;
-    bottom          : 0;
-    left            : 50%;
-    padding-left    : 96px;
-    padding-right   : 96px;
+    background      : linear-gradient(to right, #ffffff00, #ffffff7f, #ffffff7f, #ffffff00);
+    filter          : drop-shadow(0 0 2px #ffffffbf);
+    position        : sticky;
+    overflow        : hidden;
+    top             : 0;
+    margin-left     : auto;
+    margin-right    : auto;
     width           : 60%;
     max-width       : 60%;
     z-index         : 4000;
-    transform       : translateX(-50%);
     display         : flex;
     flex-direction  : row;
     flex-wrap       : wrap;
@@ -124,6 +126,7 @@ input:focus {
 
 
 #sections_wrapper {
+    margin-top   : 16px;
     margin-left  : 20%;
     margin-right : 20%;
 }

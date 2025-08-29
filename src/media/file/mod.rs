@@ -94,7 +94,10 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
         }
     });
     let title = title.or_else(|| {
-        comment.and_then(|c| ((! c.starts_with("ASCII@")) && json_from_str::<JsonValue>(&c).is_err()).then(|| c))
+        comment.and_then(|c| (
+            (! c.starts_with("ASCII@"))
+            && json_from_str::<JsonValue>(&c).is_err()
+        ).then(|| c))
     }).unwrap_or_default();
 
     let thumbnail;
