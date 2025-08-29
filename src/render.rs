@@ -108,7 +108,7 @@ fn render_group(group : &MediaGroup) -> Markup {
 
 fn render_media(media : &MediaInfo, selected : bool, group_name : &str) -> Markup { html!{
     div .img_group_select_option {
-        input type="radio" checked[selected]name=(group_name);
+        input type="radio" checked[selected] name=(group_name) .select_option_default[selected];
         img src=(media.thumbnail);
         @if (media.kind == MediaKind::Video ) {
             div .watermark_video { span { "▶" } }

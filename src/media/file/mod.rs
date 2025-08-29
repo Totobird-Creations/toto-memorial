@@ -94,10 +94,13 @@ pub fn handle_file(path : &PathBuf) -> MediaInfo {
         }
     });
     let title = title.or_else(|| {
-        comment.and_then(|c| (
-            (! c.starts_with("ASCII@"))
+        comment.and_then(|c| {
+            let c  = c.replace('\0', "");
+            let cl = c.to_lowercase();
+            (! cl.starts_with("ascii@"))
+            && (cl != "created with gimp")
             && json_from_str::<JsonValue>(&c).is_err()
-        ).then(|| c))
+        }.then(|| c))
     }).unwrap_or_default();
 
     let thumbnail;

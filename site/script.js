@@ -99,7 +99,7 @@ for (let i = 0; i < select_options.length; i++) {
     })
 }
 
-// Pause/restart video when opening/closing group.
+// Pause/restart video and select cover image when opening/closing group.
 const img_wrappers = document.getElementsByClassName("img_wrapper");
 for (let i = 0; i < img_wrappers.length; i++) {
     const img_wrapper = img_wrappers[i];
@@ -116,6 +116,9 @@ for (let i = 0; i < img_wrappers.length; i++) {
                     for (let k = 0; k < videos.length; k++) {
                         videos[k].pause();
                     }
+                    setTimeout(() => {
+                        img_wrapper.getElementsByClassName("select_option_default")[0].checked = true;
+                    }, 250);
                 }
             });
         }
